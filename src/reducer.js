@@ -4,6 +4,7 @@ import {
   IS_REFRESHING,
   IS_LOADING,
   ON_ERROR,
+  SAVE_GENRES,
 } from './actions';
 
 const initialState = {
@@ -13,10 +14,13 @@ const initialState = {
   error: null,
   isLoading: false,
   isRefreshing: false,
+  genres: null,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case SAVE_GENRES:
+      return {...state, genres: action.payload};
     case SAVE_ALL_UPCOMING_MOVIES:
       return {
         ...state,

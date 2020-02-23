@@ -5,18 +5,42 @@ import {
   isRefreshing,
   isLoading,
   onError,
+  GET_GENRES,
+  saveGenres,
 } from './actions';
 import Api from './Api';
 
 export const getMovies = state => state.main.movies;
 
 export default function* rootSaga(dispatch) {
+  yield takeLatest(GET_GENRES, handleGetGenres);
   yield takeLatest(GET_ALL_UPCOMING_MOVIES, handleGetAllUpcomingMovies);
 }
 
 /**
  * Handlers
  */
+
+function* handleGetGenres(action) {
+  try {
+    const response = yield call(Api.getGenres);
+    console.log(response);
+
+    let genres = {};
+    response.genres.map(item => {
+      genres = {
+        ...genres,
+        [item.id]: item.name,
+      };
+    });
+    console.log(genres);
+    yield put(saveGenres(genres));
+  } catch (error) {
+    // Todo
+  } finally {
+    // Todo
+  }
+}
 
 function* handleGetAllUpcomingMovies(action) {
   try {
