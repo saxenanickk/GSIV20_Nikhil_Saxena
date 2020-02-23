@@ -36,6 +36,21 @@ const Api = {
         .catch(error => reject(error));
     });
   },
+  getMovieDetails: ({movieId}) => {
+    let url = `${SERVER_BASE_URL}movie/${movieId}?api_key=${THE_MOVIE_DB_API_KEY}&append_to_response=credits`;
+
+    return new Promise((resolve, reject) => {
+      fetch(url)
+        .then(response => {
+          if (response.status === 200) {
+            response.json().then(res => resolve(res));
+          } else {
+            response.json().then(res => reject(res));
+          }
+        })
+        .catch(error => reject(error));
+    });
+  },
 };
 
 export default Api;
