@@ -7,6 +7,8 @@ import {
   onError,
   GET_GENRES,
   saveGenres,
+  GET_MOVIE_DETAILS,
+  saveMovieDetails,
 } from './actions';
 import Api from './Api';
 
@@ -15,6 +17,7 @@ export const getMovies = state => state.main.movies;
 export default function* rootSaga(dispatch) {
   yield takeLatest(GET_GENRES, handleGetGenres);
   yield takeLatest(GET_ALL_UPCOMING_MOVIES, handleGetAllUpcomingMovies);
+  yield takeLatest(GET_MOVIE_DETAILS, handleGetMovieDetails);
 }
 
 /**
@@ -84,6 +87,24 @@ function* handleGetAllUpcomingMovies(action) {
     // Change the isRefreshing State
     if (action.payload.isRefreshing) {
       yield put(isRefreshing(false));
+    }
+  }
+}
+
+function* handleGetMovieDetails(action) {
+  try {
+    // Call the getMovieDetails API
+    const response = yield call(Api.getMovieDetails, action.payload);
+    // Save the movie details to store
+    yield put(saveMovieDetails(response));
+  } catch (error) {
+    // Check whether error code and error message is present or not
+    if (error && error.status_code && error.status_message) {
+      // If present
+      yield put(onError({message: error.status_message}));
+    } else {
+      // If not present
+      yield put(onError({message: 'Something went wrong.'}));
     }
   }
 }

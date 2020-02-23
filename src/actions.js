@@ -5,6 +5,8 @@ export const SAVE_ALL_UPCOMING_MOVIES = 'SAVE_ALL_UPCOMING_MOVIES';
 export const IS_REFRESHING = 'IS_REFRESHING';
 export const IS_LOADING = 'IS_LOADING';
 export const ON_ERROR = 'ON_ERROR';
+export const GET_MOVIE_DETAILS = 'GET_MOVIE_DETAILS';
+export const SAVE_MOVIE_DETAILS = 'SAVE_MOVIE_DETAILS';
 
 export const getGenres = payload => ({type: GET_GENRES, payload});
 
@@ -25,3 +27,10 @@ export const isLoading = payload => ({type: IS_LOADING, payload});
 export const isRefreshing = payload => ({type: IS_REFRESHING, payload});
 
 export const onError = payload => ({type: ON_ERROR, payload});
+
+export const getMovieDetails = payload => ({type: GET_MOVIE_DETAILS, payload});
+
+export const saveMovieDetails = payload => ({
+  type: SAVE_MOVIE_DETAILS,
+  payload,
+});

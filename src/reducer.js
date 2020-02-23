@@ -5,6 +5,7 @@ import {
   IS_LOADING,
   ON_ERROR,
   SAVE_GENRES,
+  SAVE_MOVIE_DETAILS,
 } from './actions';
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
   isLoading: false,
   isRefreshing: false,
   genres: null,
+  details: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -27,6 +29,11 @@ const reducer = (state = initialState, action) => {
         movies: action.payload.results,
         page: action.payload.page,
         total_pages: action.payload.total_pages,
+      };
+    case SAVE_MOVIE_DETAILS:
+      return {
+        ...state,
+        details: action.payload,
       };
     case IS_LOADING:
       return {...state, isLoading: action.payload};
