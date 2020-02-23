@@ -47,7 +47,11 @@ class MovieListing extends React.Component {
     const {genres} = this.props;
     return (
       <MovieCard
-        onPress={() => this.props.navigation.navigate('Movie Details')}
+        onPress={() =>
+          this.props.navigation.navigate('Movie Details', {
+            movieId: item.id,
+          })
+        }
         itemWidth={THUMBNAIL_WIDTH}
         genres={genres}
         item={item}
@@ -110,7 +114,6 @@ class MovieListing extends React.Component {
           }
           onEndReached={this.handleLoadMore}
           onEndReachedThreshold={1}
-          ListFooterComponent={this.renderFooter}
           ListEmptyComponent={this.renderEmptyComponent}
         />
       </View>
