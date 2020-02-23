@@ -6,6 +6,13 @@ import {GSynergyTextRegular} from '../GSynergyText';
 
 const {height} = Dimensions.get('window');
 
+const renderGenres = (genre_ids, genres) => {
+  let tempGenreList = [];
+  genre_ids.map((genreId, id) => tempGenreList.push(genres[genreId]));
+
+  return tempGenreList.join(', ');
+};
+
 const MovieCard = ({item, genres, itemWidth, onPress}) => (
   <TouchableOpacity
     activeOpacity={0.8}
@@ -32,7 +39,7 @@ const MovieCard = ({item, genres, itemWidth, onPress}) => (
       <View style={{flex: 0.7}}>
         <MovieThumbnail item={item} />
       </View>
-      <View style={{flex: 0.3}}>
+      <View style={{flex: 0.3, padding: 5}}>
         <GSynergyTextRegular
           color={'#1951AB'}
           numberOfLines={1}
@@ -40,14 +47,18 @@ const MovieCard = ({item, genres, itemWidth, onPress}) => (
           {item.title}
         </GSynergyTextRegular>
         <GSynergyTextRegular
+          size={height / 70}
           color={'#4A4A4A'}
           numberOfLines={1}
           ellipsizeMode={'tail'}>
           {item.release_date}
         </GSynergyTextRegular>
         {genres !== null ? (
-          <GSynergyTextRegular numberOfLines={1} ellipsizeMode={'tail'}>
-            {item.genre_ids.map((genreId, id) => `${genres[genreId]}, `)}
+          <GSynergyTextRegular
+            size={height / 70}
+            numberOfLines={1}
+            ellipsizeMode={'tail'}>
+            {renderGenres(item.genre_ids, genres)}
           </GSynergyTextRegular>
         ) : null}
       </View>
