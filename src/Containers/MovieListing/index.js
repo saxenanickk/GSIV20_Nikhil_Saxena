@@ -159,6 +159,7 @@ class MovieListing extends React.Component {
           {this.noMatchFoundError()}
         </View>
         <FlatList
+          keyboardShouldPersistTaps={'always'}
           showsVerticalScrollIndicator={false}
           data={listData}
           renderItem={this.renderItem}
