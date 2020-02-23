@@ -1,10 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Image} from 'react-native';
+import {Image, Dimensions} from 'react-native';
 import {IMAGE_PATH} from '../../Api/SERVER_BASE_URL';
 import {MOVIEDB} from '../../Assets';
 
-const MovieThumbnail = ({item}) => {
+const {height} = Dimensions.get('window');
+
+const MovieThumbnail = ({item, thumbnail}) => {
   try {
     const {poster_path, backdrop_path} = item;
 
@@ -19,8 +21,8 @@ const MovieThumbnail = ({item}) => {
     if (uri) {
       return (
         <Image
-          borderTopLeftRadius={8}
-          borderTopRightRadius={8}
+          borderTopLeftRadius={thumbnail ? height / 100 : undefined}
+          borderTopRightRadius={thumbnail ? height / 100 : undefined}
           source={{uri: uri}}
           style={{
             flex: 1,
@@ -35,8 +37,8 @@ const MovieThumbnail = ({item}) => {
   } catch (error) {
     return (
       <Image
-        borderTopLeftRadius={8}
-        borderTopRightRadius={8}
+        borderTopLeftRadius={thumbnail ? height / 100 : undefined}
+        borderTopRightRadius={thumbnail ? height / 100 : undefined}
         source={MOVIEDB}
         style={{
           flex: 1,

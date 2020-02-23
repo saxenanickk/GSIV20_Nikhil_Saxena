@@ -47,6 +47,7 @@ class MovieListing extends React.Component {
     const {genres} = this.props;
     return (
       <MovieCard
+        thumbnail={true}
         onPress={() =>
           this.props.navigation.navigate('Movie Details', {
             movieId: item.id,

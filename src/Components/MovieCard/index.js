@@ -13,7 +13,7 @@ const renderGenres = (genre_ids, genres) => {
   return tempGenreList.join(', ');
 };
 
-const MovieCard = ({item, genres, itemWidth, onPress}) => (
+const MovieCard = ({item, genres, thumbnail, itemWidth, onPress}) => (
   <TouchableOpacity
     activeOpacity={0.8}
     style={{
@@ -24,7 +24,7 @@ const MovieCard = ({item, genres, itemWidth, onPress}) => (
     <View
       style={{
         flex: 1,
-        margin: 8,
+        margin: height / 100,
         ...Platform.select({
           android: {elevation: 5},
           ios: {
@@ -34,10 +34,10 @@ const MovieCard = ({item, genres, itemWidth, onPress}) => (
           },
         }),
         backgroundColor: '#ffffff',
-        borderRadius: 8,
+        borderRadius: height / 100,
       }}>
       <View style={{flex: 0.7}}>
-        <MovieThumbnail item={item} />
+        <MovieThumbnail thumbnail={thumbnail} item={item} />
       </View>
       <View style={{flex: 0.3, padding: 5}}>
         <GSynergyTextRegular
