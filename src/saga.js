@@ -27,7 +27,6 @@ export default function* rootSaga(dispatch) {
 function* handleGetGenres(action) {
   try {
     const response = yield call(Api.getGenres);
-    console.log(response);
 
     let genres = {};
     response.genres.map(item => {
@@ -36,7 +35,6 @@ function* handleGetGenres(action) {
         [item.id]: item.name,
       };
     });
-    console.log(genres);
     yield put(saveGenres(genres));
   } catch (error) {
     // Todo
