@@ -1,7 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {TouchableOpacity, View, Text, Dimensions} from 'react-native';
+import {TouchableOpacity, View, Platform, Dimensions} from 'react-native';
 import MovieThumbnail from '../MovieThumbnail';
+import {GSynergyTextRegular} from '../GSynergyText';
 
 const {height} = Dimensions.get('window');
 
@@ -17,7 +18,14 @@ const MovieCard = ({item, genres, itemWidth, onPress}) => (
       style={{
         flex: 1,
         margin: 8,
-        elevation: 5,
+        ...Platform.select({
+          android: {elevation: 5},
+          ios: {
+            shadowOffset: {width: 1, height: 1},
+            shadowColor: 'grey',
+            shadowOpacity: 0.2,
+          },
+        }),
         backgroundColor: '#ffffff',
         borderRadius: 8,
       }}>
@@ -25,12 +33,22 @@ const MovieCard = ({item, genres, itemWidth, onPress}) => (
         <MovieThumbnail item={item} />
       </View>
       <View style={{flex: 0.3}}>
-        <Text>{item.title}</Text>
-        <Text>{item.release_date}</Text>
+        <GSynergyTextRegular
+          color={'#1951AB'}
+          numberOfLines={1}
+          ellipsizeMode={'tail'}>
+          {item.title}
+        </GSynergyTextRegular>
+        <GSynergyTextRegular
+          color={'#4A4A4A'}
+          numberOfLines={1}
+          ellipsizeMode={'tail'}>
+          {item.release_date}
+        </GSynergyTextRegular>
         {genres !== null ? (
-          <Text numberOfLines={1} ellipsizeMode={'tail'}>
+          <GSynergyTextRegular numberOfLines={1} ellipsizeMode={'tail'}>
             {item.genre_ids.map((genreId, id) => `${genres[genreId]}, `)}
-          </Text>
+          </GSynergyTextRegular>
         ) : null}
       </View>
     </View>
