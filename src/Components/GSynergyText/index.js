@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Text, Platform} from 'react-native';
+import {Text, Platform, TextInput} from 'react-native';
 
 export const GSynergyTextRegular = props => (
   <Text
@@ -35,4 +35,41 @@ export const GSynergyTextBold = props => (
     ellipsizeMode={props.ellipsizeMode}>
     {props.children}
   </Text>
+);
+
+export const GSynergyTextInputRegular = ({
+  size,
+  color,
+  style,
+  placeholder,
+  value,
+  onChangeText,
+  multiline,
+  numberOfLines,
+  ellipsizeMode,
+  editable,
+  inputRef,
+  ...restProps
+}) => (
+  <TextInput
+    {...restProps}
+    style={[
+      {
+        fontFamily: Platform.OS === 'ios' ? 'Avenir' : 'Roboto',
+        fontSize: size,
+        color: color,
+        margin: 0,
+        padding: 0,
+      },
+      style,
+    ]}
+    underlineColorAndroid={'transparent'}
+    placeholder={placeholder}
+    value={value}
+    onChangeText={onChangeText}
+    multiline={multiline}
+    numberOfLines={numberOfLines}
+    ellipsizeMode={ellipsizeMode}
+    editable={editable}
+  />
 );
