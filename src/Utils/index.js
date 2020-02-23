@@ -40,3 +40,19 @@ export const renderCast = casts => {
 
   return tempCastList.join(', ');
 };
+
+/**
+ * To search everything in movies data
+ */
+export const searchInMovies = (arr, searchKey) => {
+  return arr.filter(obj => {
+    return Object.keys(obj).some(key => {
+      if (obj[key] !== null) {
+        return obj[key]
+          .toString()
+          .toLowerCase()
+          .includes(searchKey.toLowerCase());
+      }
+    });
+  });
+};
