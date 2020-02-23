@@ -12,13 +12,26 @@ import {
 import {getAllUpcomingMovies, getGenres} from '../../actions';
 import {connect} from 'react-redux';
 import MovieCard from '../../Components/MovieCard';
+import {
+  GSynergyTextInputRegular,
+  GSynergyTextRegular,
+} from '../../Components/GSynergyText';
+import {searchInMovies} from '../../Utils';
 
-const {width} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 const BATCH_SIZE = 16;
 const NUM_COLUMNS = 2;
 const THUMBNAIL_WIDTH = width / NUM_COLUMNS;
 
 class MovieListing extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      searchQuery: '',
+      searchResults: [],
+    };
+  }
+
   componentDidMount() {
     this.props.dispatch(getGenres());
     this.makeRemoteRequest(1, true, false);
@@ -76,10 +89,42 @@ class MovieListing extends React.Component {
     index,
   });
 
-  render() {
-    const {isRefreshing, isLoading, error} = this.props;
+  onChangeText = text => {
+    const {movies} = this.props;
 
-    if (isLoading && error) {
+    const tempData = movies.slice();
+    let tempResults = searchInMovies(tempData, text);
+    this.setState({searchQuery: text, searchResults: tempResults});
+  };
+
+  noMatchFoundError = () => {
+    const {searchQuery, searchResults} = this.state;
+
+    if (searchQuery.length && !searchResults.length) {
+      console.log('Hello');
+      return (
+        <View style={{paddingHorizontal: 10}}>
+          <GSynergyTextRegular color={'red'}>
+            {'No match found. All data is being shown.'}
+          </GSynergyTextRegular>
+        </View>
+      );
+    }
+    return null;
+  };
+
+  render() {
+    const {isRefreshing, isLoading, error, movies} = this.props;
+    const {searchResults, searchQuery} = this.state;
+
+    // Data provider to render Flatlist
+    let listData = movies;
+    // If data is being searched then search results list is our main data provider
+    if (searchQuery.length && searchResults.length) {
+      listData = searchResults;
+    }
+
+    if (isLoading && !movies.length) {
       return <ActivityIndicator style={{marginVertical: 24}} size="large" />;
     }
 
@@ -97,9 +142,25 @@ class MovieListing extends React.Component {
 
     return (
       <View style={{flex: 1}}>
+        <View>
+          <GSynergyTextInputRegular
+            style={{
+              backgroundColor: '#ffffff',
+              padding: 10,
+              borderWidth: 3,
+              borderColor: '#dfdfdf',
+              borderRadius: height / 50,
+              margin: 10,
+            }}
+            onChangeText={this.onChangeText}
+            value={searchQuery}
+            placeholder={'Search here'}
+          />
+          {this.noMatchFoundError()}
+        </View>
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={this.props.movies}
+          data={listData}
           renderItem={this.renderItem}
           keyExtractor={(item, index) => index.toString()}
           getItemLayout={this.getItemLayout}
